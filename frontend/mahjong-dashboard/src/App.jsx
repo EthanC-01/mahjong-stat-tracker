@@ -1,48 +1,78 @@
 import { useState } from 'react'
 import './App.css'
 
-function ScoringCard() {
-  const states = ['Win', 'Feed', 'Neutral']
-  const [stateIndex, setState] = useState(2);
-  const currentState = states[stateIndex];
+/*pass in tabs which is an array of tabs*/
+function NavTabs({tabs, currentTab, onTabChange, style}) {
+  return(
+    <div className="nav" style={style}>
+      {tabs.map((tab) => (
+        <button key={tab} className={currentTab === tab ? "nav-active" : "nav-tab"} onClick={() => onTabChange(tab)}>{tab}</button>
+      ))}
+    </div>
+  );
+}
 
-  const cycleState = () => {
-    setState((prev) => (prev + 1) % states.length);
-  };
+
+function ScoringCard({wind}) {
+  const states = [ 'win', 'none', 'feed']
+  const [currentState, setState] = useState("none");
+  const winds = {"北": "North", "東": "East", "西": "West", "南": "South"}
 
   return (
     <div
-      className={ currentState == "Win" ? "win-card" :
-                  currentState == "Feed" ? "feed-card" :
-                  "card"
-      }
-      onClick={cycleState}
+      className={ currentState == "win" ? "win-card" : currentState == "feed" ? "feed-card" : "card" }
       role="button"
-      tabIndex={0}
     >
+      <div style={{ position:"relative", display: "flex", flexDirection: "row"}}>
+        <span style={{width:"20%", fontSize:"1em", fontWeight: "bold"}}>{wind}</span>
+        <div style={{ display:"flex", flexDirection: "column"}}>
+          <span style={{fontSize:".8em", textAlign:"left"}}>Name</span>
+          <span style={{ textAlign:"left" ,fontSize:".5em"}}>{winds[wind]}</span>
+        </div>
+      </div>
+      <div>
+        <span style={{fontSize:".8em"}}>bonus points</span>
+        <select style={{ position:"relative" }}>
+          {Array.from(Array(13), (_, i) => (
+            <option key={i} value={i}>{i}</option>
+          ))}
+        </select>
+        {currentState === "win" && (
+          <div> 
+            <span>Winning hand</span>
+            <select style={{ position: "relative" }}>
+              {Array.from(Array(13), (_, i) => (
+                <option key={i} value={i}>{i}</option>
+              ))}
+            </select>
+          </div>
+        )}
+      </div>
+      <NavTabs 
+        tabs={states}
+        currentTab={currentState}
+        onTabChange={(tab) => setState(tab)} 
+        style={{ width: "80%",  height: "15%", justifySelf: "center", top: "75%", position: "absolute", zIndex:"2"}}
+      />
     </div>
   );
 }
 
 
 function App() {
-  const [currentTab, setTab] = useState('scoring');
+  const [currentTab, setTab] = useState("scoring");
+
   return (
     <>
     <header className="header">
-      <div className="set-counter">Set 4 · Round 1</div> {/*Set and round will eventually increment*/}
       <h1 className="site-title">麻將 Mahjong</h1>
-      <div className="nav">
-        <button className={currentTab == "scoring" ? "nav-active" : "nav-tab"} onClick={() => setTab("scoring")}>Scoring</button>
-          <button className={currentTab == "leaderboard" ? "nav-active" : "nav-tab"} onClick={() => setTab("leaderboard")}>Leaderboard</button>
-          <button className={currentTab == "stats" ? "nav-active" : "nav-tab"} onClick={() => setTab("stats")}>Stats</button>
-      </div>
+      <NavTabs tabs={["scoring", "leaderboard", "stats"]} currentTab={currentTab} onTabChange={setTab}/>
     </header>
     <div className='card-container'>
-      <ScoringCard/>
-      <ScoringCard/>
-      <ScoringCard/>
-      <ScoringCard/>
+      <ScoringCard wind={"北"}/>
+      <ScoringCard wind={"東"}/>
+      <ScoringCard wind={"西"}/>
+      <ScoringCard wind={"南"}/>
     </div>
     <button className='submit'>Submit</button>
     </>
