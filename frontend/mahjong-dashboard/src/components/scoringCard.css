@@ -1,0 +1,37 @@
+.card-container {
+  display: grid;
+  justify-self: center;
+  width: 540px; 
+  height: 400px;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.card, .win-card, .feed-card{
+  position: relative;
+  background-color: #f1f1f1;
+  border: 2px solid #A89B8C;
+  border-radius: 20px;
+  padding: 10px;
+  font-size: 30px;
+  text-align: center;
+  cursor: pointer; 
+  user-select: none;
+}
+
+.win-card {
+  border: 2px solid green;
+  background-color: #eaf4ee;
+}
+
+.feed-card {
+  border: 2px solid red;
+  background-color: #faeeee;
+}
+
+.drop-down {
+    position: relative;
+    left: 5px;
+    background: transparent;
+    border-radius: 5px;
+}
