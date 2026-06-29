@@ -15,8 +15,26 @@
   transition: color .10s;
 }
 
+.page-container {
+  justify-self: center;
+  height: auto;
+  width: 540px;
+}
+
 .submit:hover {
   color: #D4AF37;
 }
 
 
+/*Leaderboard*/
+
+.table {
+  height:"90%";
+  text-align:"center";
+  color: black;
+  overflow: scroll;
+}
+
+.table::-webkit-scrollbar {
+  display: none;
+}
