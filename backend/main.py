@@ -1,8 +1,11 @@
-import uvicorn
-from fastapi import FastAPI
+import os
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from supabase import create_client, Client
+from dotenv import load_dotenv
 
+load_dotenv()
 
 app = FastAPI()
 
@@ -17,6 +20,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+def get_supabase() -> Client:
+    return create_client(
+        os.environ["SUPABASE_URL"],
+        os.environ["SUPABASE_SECRET_KEY"]
+    )
 
 class PlayerScore(BaseModel):
     wind: str
@@ -33,3 +42,9 @@ def submit_score(result: RoundScore):
     print(result)
     print(result.players[0])
     return result
+
+
+@app.get("/leaderboard")
+def get_scores(supabase = Depends(get_supabase)):
+    result = supabase.table("player_stats").select("*").order("rank", desc=False).execute()
+    return result.data
