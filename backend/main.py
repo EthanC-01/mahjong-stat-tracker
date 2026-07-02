@@ -46,5 +46,10 @@ def submit_score(result: RoundScore):
 
 @app.get("/leaderboard")
 def get_scores(supabase = Depends(get_supabase)):
-    result = supabase.table("player_stats").select("*").order("rank", desc=False).execute()
+    result = supabase.from_("player_stats").select("*, players(player_id, player_name)").order("rank", desc=False).execute()
+    return result.data
+
+@app.get("/stats")
+def get_stats(supabase = Depends(get_supabase)):
+    result = supabase.from_("player_stats").select("*").order("rank", desc=False).execute()
     return result.data
