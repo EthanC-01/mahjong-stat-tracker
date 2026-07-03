@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import NavTabs from './components/navTab';
 import './App.css'
 import ScoringPage from './pages/Scoring';
@@ -7,6 +7,27 @@ import StatsPage from './pages/Stats';
 
 function App() {
   const [currentTab, setTab] = useState("scoring");
+  const [leaderboard, setLeaderboard] = useState([]);
+
+  useEffect(() => {
+    const fetchLeaderboard = async () => {
+    try {
+        const res = await fetch("http://localhost:8000/leaderboard");
+        
+        if (!res.ok) {
+            console.log(res.status);
+            return;
+        }
+
+        const data = await res.json();
+        setLeaderboard(data);
+    } catch {
+        console.log("Failed to fetch");
+    }
+    };
+    fetchLeaderboard();
+  }, []);
+
   return (
     <>
     <header className="header">
@@ -17,10 +38,10 @@ function App() {
       <ScoringPage />
     </div>
     <div style={{display: currentTab === "leaderboard" ? "block" : "none"}}>
-      <LeaderboardPage />
+      <LeaderboardPage leaderboard={leaderboard}/>
     </div>
     <div style={{display: currentTab === "stats" ? "block" : "none"}}>
-      <StatsPage />
+      <StatsPage leaderboard={leaderboard}/>
     </div>
     </>
   )

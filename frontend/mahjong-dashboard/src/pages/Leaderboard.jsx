@@ -1,25 +1,4 @@
-import { useState, useEffect } from 'react'
-export default function LeaderboardPage() {
-    const [leaderboard, setLeaderboard] = useState([]);
-    
-    useEffect(() => {
-        const fetchLeaderboard = async () => {
-        try {
-            const res = await fetch("http://localhost:8000/leaderboard");
-            
-            if (!res.ok) {
-                console.log(res.status);
-                return;
-            }
-
-            const data = await res.json();
-            setLeaderboard(data);
-        } catch {
-            console.log("Failed to fetch");
-        }
-        };
-        fetchLeaderboard();
-    }, []);
+export default function LeaderboardPage({leaderboard}) {
                     
     return (
         <>
