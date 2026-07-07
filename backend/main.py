@@ -52,5 +52,9 @@ def get_scores(supabase = Depends(get_supabase)):
 @app.get("/stats/{player_id}")
 def get_stats(player_id: int, supabase = Depends(get_supabase)):
     print(player_id)
-    result = supabase.from_("player_stats").select("*").eq("player_id", player_id).order("rank", desc=False).execute()
-    return result.data
+    player_results = supabase.from_("player_stats").select("*").eq("player_id", player_id).order("rank", desc=False).execute()
+    match_history = supabase.from_("match_stats").select("*").eq("player_id", player_id).execute()
+    return {
+        "player_results": player_results.data,
+        "match_history": match_history.data
+    }
