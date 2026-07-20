@@ -34,15 +34,17 @@ function App() {
       <h1 className="site-title">麻將 Mahjong</h1>
       <NavTabs tabs={["scoring", "leaderboard", "stats"]} currentTab={currentTab} onTabChange={setTab}/>
     </header>
-    <div style={{display: currentTab === "scoring" ? "block" : "none"}}>
-      <ScoringPage />
-    </div>
-    <div style={{display: currentTab === "leaderboard" ? "block" : "none"}}>
-      <LeaderboardPage leaderboard={leaderboard}/>
-    </div>
-    <div style={{display: currentTab === "stats" ? "block" : "none"}}>
-      <StatsPage leaderboard={leaderboard}/>
-    </div>
+    <main className='page-view'>
+      <div style={{display: currentTab === "scoring" ? "block" : "none"}}>
+        <ScoringPage />
+      </div>
+      <div style={{display: currentTab === "leaderboard" ? "block" : "none"}}>
+        <LeaderboardPage leaderboard={leaderboard}/>
+      </div>
+      <div style={{display: currentTab === "stats" ? "block" : "none"}}>
+        <StatsPage leaderboard={leaderboard}/>
+      </div>
+    </main>
     </>
   )
 }

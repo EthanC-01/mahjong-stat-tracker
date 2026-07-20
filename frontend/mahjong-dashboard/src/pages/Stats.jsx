@@ -37,11 +37,30 @@ export default function StatsPage({leaderboard}) {
     return (
         <>
             <div className='page-container'>
-                <div className='nav'>
-                    <button className='nav-tab'>{"<"}</button>
-                    <button style={{width:"70%", borderRadius:"10px"}} onClick={()=>setPlayers(!showPlayers)}>{displayedName}</button>
-                    <button className='nav-tab'>{">"}</button>
+                <div>
+                    <div className='nav'>
+                        <button className='nav-tab'>{"<"}</button>
+                        <button style={{width:"390px", borderRadius:"10px"}} onClick={()=>setPlayers(!showPlayers)}>{displayedName}</button>
+                        <button className='nav-tab'>{">"}</button>
+                    </div>
+                    <div style={{display:"block", zIndex:"2", position:"absolute", left:"39.80%", top:"167px"}}>
+                    {showPlayers && (
+                    <div style={{backgroundColor:"#f1f1f1", height:"200px", width:"390px", borderRadius:"15px", textAlign:"center", color:"black", border: "2px solid #A89B8C", margin:"5px 0 0 0", overflow:"hidden", display:"flex", flexDirection:"column"}}>
+                        <div className="table">
+                            {leaderboard.map((player, i) => (
+                                <button style={{textAlign:"center", color:"black", height: "35px", width:"100%",borderLeftStyle:"none", borderRightStyle:"none", fontSize:"14px"}} onClick={() => {setName(player.players.player_name); setPlayerId(player.players.player_id)}} key={i}>
+                                    Rank {player.rank} - {player.players.player_name}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                    )}
+                    </div>
                 </div>
+                
+                
+
+
                 <span>Overview</span>
                 <div style={{height: "70px"}}>
                     {stats && (
@@ -70,18 +89,6 @@ export default function StatsPage({leaderboard}) {
                         
                 </div>
             </div>
-
-            {showPlayers && (
-                <div style={{backgroundColor:"#f1f1f1", height:"200px", width:"200px", borderRadius:"15px", textAlign:"center", color:"black", border: "2px solid #A89B8C", margin:"5px 0 0 0", overflow:"hidden", display:"flex", flexDirection:"column"}}>
-                    <div className="table">
-                        {leaderboard.map((player, i) => (
-                            <button style={{textAlign:"center", color:"black", height: "35px", width:"100%",borderLeftStyle:"none", borderRightStyle:"none", fontSize:"14px"}} onClick={() => {setName(player.players.player_name); setPlayerId(player.players.player_id)}} key={i}>
-                                Rank {player.rank} - {player.players.player_name}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-            )}
         </>
     )
 }

@@ -1,6 +1,7 @@
 .submit {
   display: block;
-  width: 540px;
+  max-width: 540px;
+  width: 100%;
   height: 50px;
   border-radius: 10px;
   margin: 20px auto 0;
@@ -13,6 +14,13 @@
   cursor: pointer; 
   font-weight: 400;
   transition: color .10s;
+}
+
+.page-view {
+  height: 90%;
+  width: 80%;
+  max-width: 540px;
+  justify-self: center;
 }
 
 .page-container {

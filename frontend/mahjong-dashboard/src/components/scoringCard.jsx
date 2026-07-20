@@ -25,15 +25,15 @@ export default function ScoringCard({wind, name, currentState, onChange}) {
       className={ currentState == "win" ? "win-card" : currentState == "feed" ? "feed-card" : "card" }
       role="button"
     >
-      <div style={{ position:"relative", display: "flex", flexDirection: "row"}}>
-        <span style={{width:"20%", fontSize:"1em", fontWeight: "bold"}}>{wind}</span>
-        <div style={{ display:"flex", flexDirection: "column"}}>
-          <span style={{fontSize:".8em", textAlign:"left"}}>{name}</span>
-          <span style={{ textAlign:"left" ,fontSize:".5em"}}>{winds[wind]}</span>
+      <div style={{ position:"relative", display: "flex", justifyContent:"space-between", flexDirection: "row"}}>
+        <span style={{width:"25%", fontSize:"2rem", fontWeight: "bold"}}>{wind}</span>
+        <div style={{ display:"flex", flexDirection: "column", justifyContent:"end"}}>
+          <span style={{ fontSize:"1rem", textAlign:"left"}}>{name}</span>
+          <span style={{ textAlign:"left" ,fontSize:".8rem"}}>{winds[wind]}</span>
         </div>
       </div>
       <div>
-        <span style={{fontSize:".5em"}}>bonus points:</span>
+        <span style={{fontSize:".5rem"}}>bonus points:</span>
         <select className='drop-down' onChange={(e) => onChange({ bonusPoints: e.target.value })}>
           {Array.from(Array(14), (_, i) => (
             <option key={i} value={i}>{i} pts</option>
@@ -41,8 +41,8 @@ export default function ScoringCard({wind, name, currentState, onChange}) {
         </select>
         {currentState === "win" && (
           <div> 
-            <div style={{ borderBottom: "1px solid grey", paddingTop: "20px" }}/>
-            <span style={{fontSize:".5em"}}>Winning hand</span>
+            <div style={{ borderBottom: "1px solid grey", paddingTop: "10px" }}/>
+            <span style={{fontSize:".8rem"}}>Winning hand</span>
             <select className='drop-down' defaultValue= {""} onChange={(e) => onChange({ winningHand: e.target.value })}>
               <option value="" disabled hidden>Select a hand</option>
               { winningHands.map((i) => (
@@ -56,7 +56,7 @@ export default function ScoringCard({wind, name, currentState, onChange}) {
         tabs={states}
         currentTab={currentState}
         onTabChange={(tab) => onChange({ state: tab })}
-        style={{ width: "80%",  height: "15%", justifySelf: "center", top: "75%", position: "absolute", zIndex:"2"}}
+        style={{ width: "96%",  height: "15%", justifySelf: "center", top: "75%", position: "absolute"}}
       />
     </div>
   );

@@ -1,15 +1,18 @@
 .header {
   position: relative; 
   top: 0;
-  width: 540px; 
+  width: 80%;
+  max-width: 540px;
   justify-self: center;
   text-align: center;
+  height: 15%;
 }
 
 .site-title { 
-  font-size: 25px;
+  font-size: 1.5rem;
   font-weight: 500; 
   letter-spacing: .05em; 
+  padding-bottom: 2%;
 }
 
 .nav {
@@ -19,8 +22,8 @@
   border: 1px solid #A89B8C;
   border-radius: 10px; 
   padding: 4px; 
-  margin-bottom: 20px;
 }
+
 .nav-tab, .nav-active{
   flex: 1; 
   padding: 2%;
@@ -30,14 +33,15 @@
   align-items: center;
   border-radius: 7px;
   color: #6B6157;
-  font-size: 12px; 
-  letter-spacing: .08em; 
+  font-size: 0.6rem; 
+  letter-spacing: .088rem; 
   text-transform: uppercase;
   font-family: sans-serif; 
   cursor: pointer; 
   font-weight: 400;
   transition: background .15s, color .15s;
 }
+
 .nav-active {
   font-weight: 600;
   background-color: #1A1612;
