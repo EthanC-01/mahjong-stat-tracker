@@ -10,7 +10,7 @@ export default function LeaderboardPage({leaderboard}) {
                 <div style={{backgroundColor:"#f1f1f1", height:"100px", borderRadius:"15px", textAlign:"center", color:"black", border: "2px solid #A89B8C", margin:"5px 0 0 0"}}>rank 3</div>
                 */}
                 <span>Rankings</span>
-                <div style={{backgroundColor:"#f1f1f1", height:"auto", borderRadius:"15px", textAlign:"center", color:"black", border: "2px solid #A89B8C", margin:"5px 0 0 0", overflow:"hidden", display:"flex", flexDirection:"column"}}>
+                <div>
                     <div className="table">
                         {leaderboard.map((player, i) => {
                             const totalGames = player.wins + player.losses + player.draws;

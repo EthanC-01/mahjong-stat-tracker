@@ -33,7 +33,7 @@ export default function ScoringCard({wind, name, currentState, onChange}) {
         </div>
       </div>
       <div>
-        <span style={{fontSize:".5rem"}}>bonus points:</span>
+        <span style={{fontSize:".8rem"}}>bonus points:</span>
         <select className='drop-down' onChange={(e) => onChange({ bonusPoints: e.target.value })}>
           {Array.from(Array(14), (_, i) => (
             <option key={i} value={i}>{i} pts</option>

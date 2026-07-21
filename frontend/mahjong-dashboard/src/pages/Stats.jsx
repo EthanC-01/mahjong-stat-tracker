@@ -62,13 +62,13 @@ export default function StatsPage({leaderboard}) {
 
 
                 <span>Overview</span>
-                <div style={{height: "70px"}}>
+                <div style={{height: "150px"}}>
                     {stats && (
                         <div style={{color:"black", width:"100%",borderLeftStyle:"none", borderRightStyle:"none", fontSize:"14px", display:"flex", gap: "10px", flexWrap:"wrap", justifyContent:"center"}}>
                             {pstats.map((stat) => (
                                 <div style={{textAlign:"center", backgroundColor:"#f1f1f1", height: "50px", width:"60px", border: "1px solid black", borderRadius:"5px", display:"flex", flexDirection:"column"}}>
-                                    <span style={{fontSize:"1.5em", fontWeight:"bold"}}>{stats.player_results?.[0]?.[stat]}</span>
-                                    <span style={{fontSize:".8em", color:"grey"}}>{stat.replace(/[_]/g, " ")}</span>
+                                    <span style={{fontSize:"1.5rem", fontWeight:"bold"}}>{stats.player_results?.[0]?.[stat]}</span>
+                                    <span style={{fontSize:".6rem", color:"grey"}}>{stat.replace(/[_]/g, " ")}</span>
                                 </div>
                             ))}
                         </div>
@@ -83,7 +83,7 @@ export default function StatsPage({leaderboard}) {
                                         <div style={{borderRadius:"1000px", border: "1px solid black", height:"30px", width:"30px", display:"flex", alignItems:"center", justifyContent:"center"}} key={i}>{games.winner ? "W": "L"}</div>
                                     ))}
                                 </div>
-                                <div>{(stats.player_results?.[0]?.current_win_streak) > (stats.player_results?.[0]?.current_loss_streak) ? `↑ ${stats.player_results?.[0]?.current_win_streak} streak` : `↓ ${stats.player_results?.[0]?.current_loss_streak} streak`}</div>
+                                <div style={{textAlign:"right", fontSize:"0.8rem"}}>{(stats.player_results?.[0]?.current_win_streak) > (stats.player_results?.[0]?.current_loss_streak) ? `↑ ${stats.player_results?.[0]?.current_win_streak} streak` : `↓ ${stats.player_results?.[0]?.current_loss_streak} streak`}</div>
                             </div>
                         )}
                         
