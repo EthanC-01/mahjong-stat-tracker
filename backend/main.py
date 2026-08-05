@@ -54,7 +54,8 @@ def submit_score(result: RoundScore, supabase = Depends(get_supabase)):
     match_id = match.data[0]["match_id"]
 
     for player in result.players:
-        print(player.name)
+        # either search for player id based on name or pass id as a field from frontend
+        supabase.table("match_stats").insert({player.name}).execute()
 
 
 
@@ -74,7 +75,7 @@ def shuffle():
 def set_active(player_id: int, status: ActiveStatus, supabase = Depends(get_supabase)):
     supabase.table("players").update({"active": status.active}).eq("player_id", player_id).execute()
 
-    result = supabase.table("players").select("player_name").eq("active", True).execute()
+    result = supabase.table("players").select("player_id, player_name").eq("active", True).execute()
     players = result.data
     player_order.clear()
     player_order.extend(players)

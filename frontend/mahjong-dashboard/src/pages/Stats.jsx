@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import "../components/navTab.css"
 
-export default function StatsPage({leaderboard}) {
+export default function StatsPage({leaderboard, visibleTab}) {
     const [stats, setStats] = useState([]);
     const [showPlayers, setPlayers] = useState(false);
     const [displayedName, setName] = useState(null);
@@ -36,7 +36,7 @@ export default function StatsPage({leaderboard}) {
                     
     return (
         <>
-            <div className='page-container'>
+            <div style={{display: visibleTab ? "block" : "none"}}>
                 <div>
                     <div className='nav'>
                         <button className='nav-tab'>{"<"}</button>

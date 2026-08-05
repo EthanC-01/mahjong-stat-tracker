@@ -3,14 +3,17 @@
   justify-self: center;
   max-width: 540px; 
   width: 100%;
-  height: 100%;
+  height: 65%;
   grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 200px;
   gap: 1%;
 }
 
 .card, .win-card, .feed-card{
   position: relative;
-  height:200px;
+  display: flex;
+  flex-direction: column;
+  height:100%;
   background-color: #f1f1f1;
   border: 2px solid #A89B8C;
   border-radius: 20px;

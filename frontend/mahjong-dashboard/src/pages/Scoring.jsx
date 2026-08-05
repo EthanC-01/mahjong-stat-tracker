@@ -1,13 +1,13 @@
     import { useState } from 'react'
     import ScoringCard from '../components/scoringCard';
     
-    export default function ScoringPage() {
+    export default function ScoringPage({visibleTab}) {
         
         const [players, setPlayer] = useState([
-            { wind: "東", name: "Player 1", state: "none", winningHand: "", bonusPoints: 0 },
-            { wind: "南", name: "Player 2", state: "none", winningHand: "", bonusPoints: 0 },
-            { wind: "北", name: "Player 3", state: "none", winningHand: "", bonusPoints: 0 },
-            { wind: "西", name: "Player 4", state: "none", winningHand: "", bonusPoints: 0 },
+            { wind: "東", id: "1", name: "Player 1", state: "none", winningHand: "", bonusPoints: 0 },
+            { wind: "南", id: "2",name: "Player 2", state: "none", winningHand: "", bonusPoints: 0 },
+            { wind: "北", id: "3",name: "Player 3", state: "none", winningHand: "", bonusPoints: 0 },
+            { wind: "西", id: "4",name: "Player 4", state: "none", winningHand: "", bonusPoints: 0 },
         ]);
 
         const updatePlayer = (index, updates) => {
@@ -38,12 +38,24 @@
         }
         return(
         <>
-            <div className='card-container'>
+            <div className="page-container" style={{display: visibleTab ? "block" : "none"}}>
+                <div>
+                turn order
+                <div className='turn-order'>
+                hi
+                </div>
+                <div style={{display:"flex", gap: "6px", paddingLeft:"2%", paddingRight:"2%"}}>
+                    <button className='button1'>Shuffle</button>
+                </div>
+            </div>
+            
+                <div className='card-container'>
                 {/*Add logic for players names and player turn order*/}
                 {players.map((player, i) => (
                 <ScoringCard 
                     key={i} 
                     wind={player.wind} 
+                    id={player.id}
                     name={player.name} 
                     currentState={player.state}
                     winningHand={player.winningHand} 
@@ -53,6 +65,8 @@
                 ))}
             </div>
             <button className='submit' onClick={handleSubmit}>Submit</button>
+
+            </div>
         </>
         )
     }

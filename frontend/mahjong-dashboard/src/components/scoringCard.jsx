@@ -56,7 +56,7 @@ export default function ScoringCard({wind, name, currentState, onChange}) {
         tabs={states}
         currentTab={currentState}
         onTabChange={(tab) => onChange({ state: tab })}
-        style={{ width: "96%",  height: "15%", justifySelf: "center", top: "75%", position: "absolute"}}
+        style={{ width: "96%",  height: "18%", justifySelf: "center", marginTop:"auto"}}
       />
     </div>
   );
