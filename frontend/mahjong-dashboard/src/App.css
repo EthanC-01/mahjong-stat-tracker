@@ -39,6 +39,7 @@
   border-radius: 10px; 
   padding: 4px; 
   flex-direction: row;
+  gap: 6px;
 }
 
 .button1 {

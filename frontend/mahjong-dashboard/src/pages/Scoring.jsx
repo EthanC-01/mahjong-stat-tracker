@@ -3,6 +3,8 @@
     
     export default function ScoringPage({visibleTab}) {
         
+        const [turnOrder, setTurn] = useState([])
+
         const [players, setPlayer] = useState([
             { wind: "東", id: "1", name: "Player 1", state: "none", winningHand: "", bonusPoints: 0 },
             { wind: "南", id: "2",name: "Player 2", state: "none", winningHand: "", bonusPoints: 0 },
@@ -14,6 +16,24 @@
             setPlayer((prev) =>
             prev.map((player, i) => (i === index ? { ...player, ...updates } : player))
             );
+        };
+
+        const shuffleOrder = async () => {
+        try {
+            const res = await fetch("http://localhost:8000/players/shuffle", {
+                method: "POST",
+            });
+            
+            if (!res.ok) {
+                console.log(res.status);
+                return;
+            }
+
+            const data = await res.json();
+            setTurn(data);
+        } catch {
+            console.log("Failed to fetch");
+        }
         };
 
         {/*TODO add error checks e.g. valid winning hand, only 1 winner, only 1 loser*/}
@@ -42,10 +62,12 @@
                 <div>
                 turn order
                 <div className='turn-order'>
-                hi
+                    {turnOrder.map((player) => (
+                        <div key={player.player_id} style={{border:"1px solid black", padding:"4px", borderRadius:"10px", background:"#1A1612", color:"white"}}>{player.player_name}</div>                
+                    ))}
                 </div>
                 <div style={{display:"flex", gap: "6px", paddingLeft:"2%", paddingRight:"2%"}}>
-                    <button className='button1'>Shuffle</button>
+                    <button className='button1' onClick={shuffleOrder}>Shuffle</button>
                 </div>
             </div>
             

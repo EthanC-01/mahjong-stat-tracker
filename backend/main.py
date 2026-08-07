@@ -10,7 +10,20 @@ import time
 
 load_dotenv()
 
-app = FastAPI()
+# Players
+player_order = []
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    player_order.extend(fetch_active(supabase))
+    yield
+
+
+def fetch_active(supabase) -> list:
+    result = supabase.table("players").select("player_id, player_name").eq("active", True).execute()
+    return result.data    
+
+app = FastAPI(lifespan=lifespan)
 
 origins = [
     "http://localhost:5173"
@@ -43,8 +56,27 @@ class RoundScore(BaseModel):
 class ActiveStatus(BaseModel):
     active: bool
 
-player_order = []
 
+# Player order
+@app.get("/players/order")
+def get_player_order():
+    return player_order
+
+@app.post("/players/shuffle")
+def shuffle():    
+    random.shuffle(player_order)
+    return player_order
+
+@app.patch("/players/active/{player_id}")
+def set_active(player_id: int, status: ActiveStatus, supabase = Depends(get_supabase)):
+    supabase.table("players").update({"active": status.active}).eq("player_id", player_id).execute()
+    result = fetch_active(supabase)
+    player_order.clear()
+    player_order.extend(result)
+    return player_order
+
+
+# Scoring
 @app.post("/players")
 def submit_score(result: RoundScore, supabase = Depends(get_supabase)):
     match = supabase.table("matches").insert({
@@ -61,27 +93,7 @@ def submit_score(result: RoundScore, supabase = Depends(get_supabase)):
 
     return result
 
-@app.get("/players/order")
-def get_player_order():
-    return player_order
-
-@app.post("/players/shuffle")
-def shuffle():    
-    random.shuffle(player_order)
-    return player_order
-
-# Everytime attendance is updated the new list will be sent
-@app.patch("/players/{player_id}/active")
-def set_active(player_id: int, status: ActiveStatus, supabase = Depends(get_supabase)):
-    supabase.table("players").update({"active": status.active}).eq("player_id", player_id).execute()
-
-    result = supabase.table("players").select("player_id, player_name").eq("active", True).execute()
-    players = result.data
-    player_order.clear()
-    player_order.extend(players)
-    return player_order
-
-
+# Leaderboard
 @app.get("/leaderboard")
 def get_scores(supabase = Depends(get_supabase)):
     t0 = time.time()
@@ -89,6 +101,7 @@ def get_scores(supabase = Depends(get_supabase)):
     print(f"query: {time.time() - t0:.3f}s")
     return result.data
 
+# Stats
 @app.get("/stats/{player_id}")
 def get_stats(player_id: int, supabase = Depends(get_supabase)):
     t0 = time.time()

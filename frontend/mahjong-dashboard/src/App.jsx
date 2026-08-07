@@ -9,24 +9,25 @@ import PlayerPage from "./pages/Players";
 function App() {
   const [currentTab, setTab] = useState("scoring");
   const [leaderboard, setLeaderboard] = useState([]);
+  const [players, setPlayers] = useState([]);
 
   useEffect(() => {
-    const fetchLeaderboard = async () => {
+    const fetchData = async () => {
     try {
-        const res = await fetch("http://localhost:8000/leaderboard");
+        const [res, res2] = await Promise.all([
+          fetch("http://localhost:8000/leaderboard"),
+          fetch("http://localhost:8000/players/order"),
+        ])
         
-        if (!res.ok) {
-            console.log(res.status);
-            return;
-        }
-
         const data = await res.json();
+        const data2 = await res2.json();
         setLeaderboard(data);
+        setPlayers(data2);
     } catch {
         console.log("Failed to fetch");
     }
     };
-    fetchLeaderboard();
+    fetchData();
   }, []);
 
   return (
@@ -36,7 +37,7 @@ function App() {
       <NavTabs tabs={["players", "scoring", "leaderboard", "stats"]} currentTab={currentTab} onTabChange={setTab}/>
     </header>
     <main className='page-view'>
-      <PlayerPage visibleTab={currentTab === "players"}/>
+      <PlayerPage players={players} visibleTab={currentTab === "players"}/>
       <ScoringPage visibleTab={currentTab === "scoring"}/>
       <LeaderboardPage leaderboard={leaderboard} visibleTab={currentTab === "leaderboard"}/>
       <StatsPage leaderboard={leaderboard} visibleTab={currentTab === "stats"}/>
