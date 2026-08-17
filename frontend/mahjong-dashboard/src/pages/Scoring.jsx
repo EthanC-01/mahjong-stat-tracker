@@ -59,14 +59,14 @@
         return(
         <>
             <div className="page-container" style={{display: visibleTab ? "block" : "none"}}>
-                <div>
+                <div style={{paddingBottom:"10%"}}>
                 turn order
                 <div className='turn-order'>
                     {turnOrder.map((player) => (
-                        <div key={player.player_id} style={{border:"1px solid black", padding:"4px", borderRadius:"10px", background:"#1A1612", color:"white"}}>{player.player_name}</div>                
+                        <div key={player.player_id} className='player-turns'>{player.player_name}</div>                
                     ))}
                 </div>
-                <div style={{display:"flex", gap: "6px", paddingLeft:"2%", paddingRight:"2%"}}>
+                <div style={{display:"flex", paddingTop:"1%", justifyContent:"center"}}>
                     <button className='button1' onClick={shuffleOrder}>Shuffle</button>
                 </div>
             </div>

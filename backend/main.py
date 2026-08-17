@@ -15,12 +15,13 @@ player_order = []
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    player_order.extend(fetch_active(supabase))
+    player_order.extend(fetch_all(supabase))
     yield
 
 
-def fetch_active(supabase) -> list:
-    result = supabase.table("players").select("player_id, player_name").eq("active", True).execute()
+def fetch_all(supabase) -> list:
+    result = supabase.table("players").select("*").execute()
+    print(result.data)
     return result.data    
 
 app = FastAPI(lifespan=lifespan)
@@ -70,7 +71,7 @@ def shuffle():
 @app.patch("/players/active/{player_id}")
 def set_active(player_id: int, status: ActiveStatus, supabase = Depends(get_supabase)):
     supabase.table("players").update({"active": status.active}).eq("player_id", player_id).execute()
-    result = fetch_active(supabase)
+    result = fetch_all(supabase)
     player_order.clear()
     player_order.extend(result)
     return player_order
@@ -102,6 +103,7 @@ def get_scores(supabase = Depends(get_supabase)):
     return result.data
 
 # Stats
+'''
 @app.get("/stats/{player_id}")
 def get_stats(player_id: int, supabase = Depends(get_supabase)):
     t0 = time.time()
@@ -122,3 +124,4 @@ def get_stats(player_id: int, supabase = Depends(get_supabase)):
         "match_history": match_history.data,
         "hands_played": hand_data
     }
+'''
