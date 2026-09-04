@@ -1,24 +1,9 @@
 import './scoringCard.css'
 import NavTabs from './navTab'
 
-export default function ScoringCard({wind, name, currentState, onChange}) {
+export default function ScoringCard({wind, name, currentState, onChange, validHands, winningHand, bonusPoints}) {
   const states = [ 'win', 'none', 'feed']
   const winds = {"北": "North", "東": "East", "西": "West", "南": "South"}
-  const winningHands = ["Chicken Hand", 
-                        "All Triplets",
-                        "Mixed One Suit",
-                        "All Pairs",
-                        "Small Dragons",
-                        "Small Winds",
-                        "All One Suit",
-                        "Great Dragons",
-                        "All Honor",
-                        "Concealed Triplet",
-                        "Orphans",
-                        "Nine Gates",
-                        "Great Winds",
-                        "Thirteen Orphans",
-                        "All Kongs"]
 
   return (
     <div
@@ -34,7 +19,7 @@ export default function ScoringCard({wind, name, currentState, onChange}) {
       </div>
       <div>
         <span style={{fontSize:".8rem"}}>bonus points:</span>
-        <select className='drop-down' onChange={(e) => onChange({ bonusPoints: e.target.value })}>
+        <select className='drop-down' value= {bonusPoints} onChange={(e) => onChange({ bonusPoints: e.target.value })}>
           {Array.from(Array(14), (_, i) => (
             <option key={i} value={i}>{i} pts</option>
           ))}
@@ -43,10 +28,10 @@ export default function ScoringCard({wind, name, currentState, onChange}) {
           <div> 
             <div style={{ borderBottom: "1px solid grey", paddingTop: "10px" }}/>
             <span style={{fontSize:".8rem"}}>Winning hand</span>
-            <select className='drop-down' defaultValue= {""} onChange={(e) => onChange({ winningHand: e.target.value })}>
+            <select className='drop-down' value= {winningHand} onChange={(e) => onChange({ winningHand: e.target.value })}>
               <option value="" disabled hidden>Select a hand</option>
-              { winningHands.map((i) => (
-                <option key={i} value={i}>{i}</option>
+              { validHands.map((hand) => (
+                <option key={hand.hand_id} value={hand.hand_id}>{hand.hand_name}</option>
               ))}
             </select>
           </div>
