@@ -82,8 +82,8 @@ function App() {
       <NavTabs tabs={["players", "scoring", "leaderboard", "stats"]} currentTab={currentTab} onTabChange={setTab}/>
     </header>
     <main className='page-view'>
-      <PlayerPage players={players} visibleTab={currentTab === "players"} toggleActive={toggleActive}/>
-      <ScoringPage visibleTab={currentTab === "scoring"} turnOrder={turnOrder} changeOrder={setTurn} shuffle={shuffleOrder} validHands={validHands}/>
+      <PlayerPage players={players} visibleTab={currentTab === "players"} toggleActive={toggleActive} addPlayer={setPlayers}/>
+      <ScoringPage visibleTab={currentTab === "scoring"} turnOrder={turnOrder} changeOrder={setTurn} shuffle={shuffleOrder} validHands={validHands} setLeaderboard={setLeaderboard}/>
       <LeaderboardPage leaderboard={leaderboard} visibleTab={currentTab === "leaderboard"}/>
       <StatsPage leaderboard={leaderboard} visibleTab={currentTab === "stats"}/>
     </main>

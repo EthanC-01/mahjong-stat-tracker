@@ -1,9 +1,10 @@
 import './scoringCard.css'
 import NavTabs from './navTab'
 
-export default function ScoringCard({wind, name, currentState, onChange, validHands, winningHand, bonusPoints}) {
+export default function ScoringCard({wind, name, currentState, onChange, validHands, winningHand, bonusPoints, prevailingWind}) {
   const states = [ 'win', 'none', 'feed']
   const winds = {"北": "North", "東": "East", "西": "West", "南": "South"}
+  
 
   return (
     <div
@@ -11,7 +12,7 @@ export default function ScoringCard({wind, name, currentState, onChange, validHa
       role="button"
     >
       <div style={{ position:"relative", display: "flex", justifyContent:"space-between", flexDirection: "row"}}>
-        <span style={{width:"25%", fontSize:"2rem", fontWeight: "bold"}}>{wind}</span>
+        <span style={{width:"25%", fontSize:"2rem", fontWeight: "bold", color: prevailingWind === wind ? "#D4AF37" : "#1A1612"}}>{wind}</span>
         <div style={{ display:"flex", flexDirection: "column", justifyContent:"end"}}>
           <span style={{ fontSize:"1rem", textAlign:"left"}}>{name}</span>
           <span style={{ textAlign:"left" ,fontSize:".8rem"}}>{winds[wind]}</span>

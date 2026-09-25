@@ -1,7 +1,7 @@
     import { useState } from 'react'
     import ScoringCard from '../components/scoringCard';
     
-    export default function ScoringPage({visibleTab, turnOrder, shuffle, validHands, changeOrder}) {
+    export default function ScoringPage({visibleTab, turnOrder, shuffle, validHands, changeOrder, setLeaderboard}) {
         
         const playing = turnOrder.slice(0,4);
 
@@ -13,6 +13,8 @@
             { state: "none", winningHand: "", bonusPoints: 0 },
             { state: "none", winningHand: "", bonusPoints: 0 },
         ]);
+
+        const [prevailingWind, setPrevailingWind] = useState(()=>winds[Math.floor(Math.random() * winds.length)]);
 
         const updateScore = (index, updates) => {
             setScores((prev) =>
@@ -51,7 +53,9 @@
 
             const data = await res.json();
             changeOrder(data.order)
+            setLeaderboard(data.leaderboard)
             setScores(scores.map(() => ({ state: "none", winningHand: "", bonusPoints: 0 })));
+            setPrevailingWind(winds[Math.floor(Math.random() * winds.length)]);
             } catch {
             console.log("Failed to fetch")
             }
@@ -88,6 +92,7 @@
 
                     return (
                         <ScoringCard
+                            prevailingWind={prevailingWind}
                             validHands={validHands}
                             key={player.player_id}
                             wind={winds[i]}

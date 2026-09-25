@@ -79,8 +79,22 @@ class PlayerScore(BaseModel):
 class RoundScore(BaseModel):
     players: list[PlayerScore]
 
+class NewPlayer(BaseModel):
+    player_name: str
+
 class ActiveStatus(BaseModel):
     active: bool
+
+
+@app.post("/players/new")
+def add_player(player: NewPlayer, supabase = Depends(get_supabase)):
+    result = supabase.table("players").insert({
+        "player_name": player.player_name,
+        "active": False
+    }).execute()
+    res = fetch_all(supabase)
+    return res
+
 
 @app.get("/hands")
 def get_hands(supabase = Depends(get_supabase)):
@@ -141,36 +155,26 @@ def submit_score(result: RoundScore, supabase = Depends(get_supabase)):
 
     rotate()
     print({"order": player_order})
-    return {"match_id": match_id, "order": player_order}
+    leaderboard = get_scores(supabase)
+    return {"match_id": match_id, "order": player_order, "leaderboard": leaderboard}
 
 # Leaderboard
 @app.get("/leaderboard")
 def get_scores(supabase = Depends(get_supabase)):
-    t0 = time.time()
     result = supabase.from_("player_stats").select("*, players(player_id, player_name)").order("rank", desc=False).execute()
-    print(f"query: {time.time() - t0:.3f}s")
     return result.data
 
 # Stats
-'''
 @app.get("/stats/{player_id}")
 def get_stats(player_id: int, supabase = Depends(get_supabase)):
-    t0 = time.time()
-    hand_data = []
     player_results = supabase.from_("player_stats").select("*").eq("player_id", player_id).order("rank", desc=False).execute()
-    match_history = supabase.from_("match_stats").select("*").eq("player_id", player_id).execute()
-    hands_played = supabase.from_("hand_played").select("times_used, hand_type(hand_id, hand_name)").eq("player_id", player_id).execute()
-    print(f"query: {time.time() - t0:.3f}s")
-    for hand in hands_played.data:
-        hand_data.append({
-            "hand_id": hand["hand_type"]["hand_id"],
-            "hand_name": hand["hand_type"]["hand_name"],
-            "times_used": hand["times_used"]
-        })
-
+    match_history = supabase.from_("match_stats").select("*").eq("player_id", player_id).order("match_id", desc=False).execute()
+    hands_played = supabase.from_("hand_stats").select("*").eq("player_id", player_id).order("times_played", desc=True).execute()
+    feeds = supabase.from_("feed_stats").select("*").eq("feeder_id", player_id).execute()
+    print(hands_played)
     return {
         "player_results": player_results.data,
-        "match_history": match_history.data,
-        "hands_played": hand_data
+        "match_history": match_history.data[-12:],
+        "hands_played": hands_played.data,
+        "feeds": feeds.data
     }
-'''
